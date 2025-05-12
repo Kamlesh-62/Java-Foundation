@@ -1,6 +1,6 @@
 # Java Keyword
 
-## 1.void
+## 1. void
 The `void` keyword in Java is used in method declarations to specify that the method does not return any value. It indicates that the method performs an action but does not produce a result to be returned to the caller.
 
 ### Usage
