@@ -17,7 +17,7 @@ Object-Oriented Programming is a paradigm that organizes code into objects, whic
 
 **Example Context**: Throughout this guide, we will use a `Library` system where a `Book` class represents books with attributes like title and author, and methods to manage them. This example will evolve to demonstrate each OOP concept.
 
-## 2.2 Classes and Objects
+## 2.1.1 Classes and Objects
 A **class** is a blueprint for creating objects, defining their structure (attributes) and behavior (methods). An **object** is an instance of a class, representing a specific entity based on the class's blueprint.
 
 - **Class Declaration**: Use the `class` keyword, followed by the class name and a body containing attributes and methods.
@@ -61,7 +61,7 @@ class Library {
 ```
 In this example, `Book` is a class with attributes (`title`, `author`) and a method (`displayInfo`). Two objects (`book1`, `book2`) are created, each with distinct data.
 
-## 2.3 Attributes and Methods
+## 2.1.2 Attributes and Methods
 **Attributes** (or fields) are variables defined within a class that store an object's state. **Methods** are functions defined within a class that define an object's behavior.
 
 - **Attributes**: Typically declared at the class level, they hold data specific to each object (instance variables) or shared across all objects (static variables).
@@ -110,7 +110,7 @@ class Library {
 ```
 Here, `copiesAvailable` is a new attribute, and `borrowBook` is a method that modifies the object's state. The `this` keyword ensures the constructor assigns parameters to instance variables.
 
-## 2.4 Access Specifiers
+## 2.1.3 Access Specifiers
 Access specifiers control the visibility and accessibility of class members (attributes, methods, constructors). Java provides four access levels:
 
 - **public**: Accessible from everywhere.
@@ -172,7 +172,7 @@ class Library {
 ```
 Here, attributes are `private`, and public getters (`getTitle`) and setters (`setTitle`) control access, ensuring encapsulation.
 
-## 2.5 Static Keyword
+## 2.1.4 Static Keyword
 The `static` keyword indicates that a member (attribute or method) belongs to the class rather than an instance. Static members are shared across all objects of the class.
 
 - **Static Attributes**: Store data common to all instances (e.g., a counter for total books).
@@ -219,7 +219,7 @@ class Library {
 ```
 The `totalBooks` static attribute tracks the number of `Book` objects created, and the static `getTotalBooks` method provides access to it.
 
-## 2.6 Final Keyword
+## 2.1.5 Final Keyword
 The `final` keyword restricts modification, ensuring immutability or fixed behavior.
 
 - **Final Variables**: Cannot be reassigned once initialized (like constants).
@@ -270,7 +270,7 @@ class Library {
 ```
 The `ISBN` is `final`, ensuring it cannot be changed after initialization, suitable for unique identifiers.
 
-## 2.7 Nested Classes
+## 2.1.6 Nested Classes
 A **nested class** is a class defined within another class. Java supports two types:
 
 - **Static Nested Classes**: Declared with `static`, they belong to the outer class and don’t require an instance of the outer class.
@@ -334,7 +334,7 @@ class Library {
 ```
 The `BorrowRecord` inner class tracks borrowing details and can access the outer class’s `title` attribute. It requires a `Book` instance to be created.
 
-## 2.8 Packages
+## 2.1.7 Packages
 A **package** is a namespace that organizes classes and interfaces, preventing naming conflicts and improving code maintainability.
 
 - **Declaration**: Use the `package` keyword at the top of a file (e.g., `package com.library`).
