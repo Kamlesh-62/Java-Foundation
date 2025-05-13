@@ -145,7 +145,7 @@ The `Book` example illustrates these stages, showing how a `Book` object is crea
 
 If you have further questions or need additional examples, please let me know.
 
-## 2. Inheritance
+## 2.2. Inheritance
 Inheritance is an OOP principle that allows a class (subclass or derived class) to inherit attributes and methods from another class (superclass or base class), promoting code reuse and establishing a hierarchical relationship.
 
 ### Explanation
@@ -234,7 +234,7 @@ class Library {
 - `displayInfo` is overridden to include the `subject`, demonstrating polymorphism.
 - The `protected` access specifier allows the subclass to access superclass attributes.
 
-## 3. Abstraction
+## 2.3. Abstraction
 Abstraction is an OOP principle that hides complex implementation details and exposes only the essential features of an object, reducing complexity and enhancing usability.
 
 ### Explanation
@@ -308,7 +308,7 @@ class Library {
 - `Book` extends `LibraryItem`, implementing `displayInfo` to provide specific behavior.
 - The abstract class cannot be instantiated directly, ensuring only concrete subclasses like `Book` are used.
 
-## 4. Method Chaining
+## 2.4. Method Chaining
 Method chaining is a design pattern where methods return the object itself (`this`), allowing multiple method calls to be chained in a single statement for concise and readable code.
 
 ### Explanation
@@ -384,7 +384,7 @@ class Library {
 - The chained call creates and configures a `Book` object in one statement, improving readability.
 - A no-arg constructor initializes default values, supporting the builder-like pattern.
 
-## 5. Encapsulation
+## 2.5. Encapsulation
 Encapsulation is an OOP principle that bundles data (attributes) and methods within a class, restricting direct access to the data and exposing it through controlled interfaces (e.g., getters and setters).
 
 ### Explanation
@@ -467,7 +467,7 @@ class Library {
 - Getters provide read-only access where setters are not needed (e.g., `getTitle`).
 - Encapsulation ensures the object’s state remains valid and consistent.
 
-## 6. Interfaces
+## 2.6. Interfaces
 An interface is a fully abstract type that defines a contract of methods that implementing classes must provide. It supports abstraction and multiple inheritance-like behavior.
 
 ### Explanation
