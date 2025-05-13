@@ -23,7 +23,7 @@
 - Nested Classes  
 - Packages  
 
-### 2.2 More about OOP
+### 2.2 More about OOP [ Go to More OOP Guide →](./Java_OOP_guide2.markdown)
 - Object Lifecycle  
 - Inheritance  
 - Abstraction  
