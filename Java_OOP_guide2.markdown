@@ -156,7 +156,7 @@ Inheritance is an OOP principle that allows a class (subclass or derived class) 
   - **Multilevel Inheritance**: A class inherits from a subclass, forming a chain (e.g., A → B → C).
   - Java does **not** support multiple inheritance (inheriting from multiple superclasses) for classes to avoid complexity, but interfaces (discussed later) address this.
 - **Super Keyword**: Used to access superclass constructors (`super()`) or methods (`super.methodName()`).
-- **Overriding**: A subclass can provide a specific implementation of a superclass method using the same [signature] (./Java-core.markdown).
+- **Overriding**: A subclass can provide a specific implementation of a superclass method using the same [ signature ](./Java-core.markdown).
 
 ### Key Points
 - Inheritance models “is-a” relationships (e.g., a `TextBook` is a `Book`).
@@ -714,7 +714,7 @@ Instead of writing a 40-line class just to store a book’s title, author, and n
 ### Explanation
 - **Method Overloading**:
   - Multiple methods in the same class with the same name but different parameter lists (number, type, or order).
-  - Resolved at **compile time** based on the method [signature] (./Java-core.markdown).
+  - Resolved at **compile time** based on the method [ signature ](./Java-core.markdown).
   - Return type alone cannot differentiate overloaded methods.
 - **Method Overriding**:
   - A subclass provides a specific implementation of a method defined in its superclass, using the same signature (name, parameters, return type).
