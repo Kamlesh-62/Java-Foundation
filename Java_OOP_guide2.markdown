@@ -1188,4 +1188,10 @@ class Library {
   - **Private/Final Methods**: Methods marked `private` or `final` cannot be overridden, limiting runtime polymorphism.
 - **Performance**: Runtime polymorphism incurs a minor overhead due to dynamic method dispatch, but modern JVM optimizations (e.g., inline caching) minimize this impact.
 - **Design Patterns**: Polymorphism is foundational to patterns like Strategy, Factory, and Decorator, enabling flexible and extensible code designs.
+  
+| **Feature**       | **Overriding** | **Overloading**                                                       |
+|-------------------|----------------------------|---------------------------------------------------------------------|
+| Type       | Runtime polymorphism               | 	Compile-time polymorphism                       |
+| When    | Inherited methods                | Same class, different method signatures                                 |
+| Purpose	        | Customize behavior	                 | Improve flexibility and readability |
 
