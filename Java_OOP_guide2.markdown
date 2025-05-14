@@ -709,7 +709,7 @@ Instead of writing a 40-line class just to store a book’s title, author, and n
 - Use records when you're building simple, immutable data holders and want to write less code and make fewer mistakes.
 
 ## 2.9. Method Overloading / Overriding
-**Method Overloading** and **Method Overriding** are mechanisms to enhance flexibility and polymorphism in Java.
+**Method Overloading** and **Method Overriding** are mechanisms to enhance flexibility and [Polymorphism](#213-polymorphism) in Java.
 
 ### Explanation
 - **Method Overloading**:
@@ -1033,3 +1033,159 @@ class Library {
   - Reassigning `book` to a new object changes the local reference, not the caller’s.
 - In `updatePrimitive`, the `value` parameter is a copy of the `int`; changes do not affect the caller’s `copies`.
 - This demonstrates Java’s pass by value for both primitives and references.
+
+## 2.13. Polymorphism
+
+**Polymorphism** allows objects of different classes to be treated as instances of a common superclass or interface, while executing behavior specific to their actual class. It is a core OOP principle that supports dynamic behavior, enabling a single interface or superclass type to represent multiple implementations.
+
+### Explanation
+- **Definition**: Polymorphism, meaning "many forms," refers to the ability of a single method call or reference to operate differently depending on the object’s actual type at runtime.
+- **Types**:
+  - **Compile-Time Polymorphism** (Static Polymorphism): Achieved through **method overloading**, where multiple methods share the same name but differ in parameter lists (number, type, or order). Resolved at compile time based on the method signature.
+  - **Runtime Polymorphism** (Dynamic Polymorphism): Achieved through **method overriding**, where a subclass provides a specific implementation of a superclass or interface method. Resolved at runtime using dynamic method dispatch.
+- **Mechanisms**:
+  - **Inheritance**: A subclass inherits from a superclass, overriding methods to provide specialized behavior.
+  - **Interfaces**: Classes implementing an interface provide concrete implementations of its methods, allowing polymorphic treatment.
+  - **Upcasting**: Assigning a subclass object to a superclass or interface reference (implicit and safe).
+  - **Downcasting**: Converting a superclass or interface reference back to a subclass type (explicit, requires `instanceof` checks to avoid `ClassCastException`).
+- **Purpose**: Enables generic code that works with multiple types, reduces redundancy, and supports extensibility through polymorphism.
+
+### Key Points
+- Polymorphism models “is-a” relationships (e.g., a `TextBook` is a `Book`).
+- Runtime polymorphism relies on **dynamic binding**, where the JVM determines the method to call based on the object’s actual type, not the reference type.
+- Compile-time polymorphism is resolved by the compiler, making it faster but less flexible than runtime polymorphism.
+- The `@Override` annotation ensures correct method overriding and improves code clarity.
+- Polymorphism is central to design patterns like Strategy, Factory, and Decorator, enabling modular and scalable designs.
+
+### Example
+The following example, based on the `Library` system, demonstrates both compile-time and runtime polymorphism using an abstract `LibraryItem` class, a `Book` class, a `TextBook` subclass, and a `Borrowable` interface.
+
+```java
+// Interface for borrowable items
+public interface Borrowable {
+    void borrowItem();
+    default void returnItem() {
+        System.out.println("Item returned successfully.");
+    }
+}
+
+// Abstract class for library items
+public abstract class LibraryItem {
+    protected String title;
+    protected int copiesAvailable;
+
+    public LibraryItem(String title, int copiesAvailable) {
+        this.title = title;
+        this.copiesAvailable = copiesAvailable;
+    }
+
+    // Abstract method for runtime polymorphism
+    public abstract void displayInfo();
+
+    // Overloaded method for compile-time polymorphism
+    public void displayInfo(boolean includeCopies) {
+        System.out.println("Title: " + title + (includeCopies ? ", Copies: " + copiesAvailable : ""));
+    }
+}
+
+// Book class implementing Borrowable
+public class Book extends LibraryItem implements Borrowable {
+    private String author;
+
+    public Book(String title, String author, int copiesAvailable) {
+        super(title, copiesAvailable);
+        this.author = author;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("Book - Title: " + title + ", Author: " + author + ", Copies: " + copiesAvailable);
+    }
+
+    @Override
+    public void borrowItem() {
+        if (copiesAvailable > 0) {
+            copiesAvailable--;
+            System.out.println("Book borrowed successfully.");
+        } else {
+            System.out.println("No copies available.");
+        }
+    }
+}
+
+// TextBook subclass
+public class TextBook extends Book {
+    private String subject;
+
+    public TextBook(String title, String author, int copiesAvailable, String subject) {
+        super(title, author, copiesAvailable);
+        this.subject = subject;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("TextBook - Title: " + title + ", Author: " + author + ", Subject: " + subject + ", Copies: " + copiesAvailable);
+    }
+
+    // Getter for subject
+    public String getSubject() {
+        return subject;
+    }
+}
+
+class Library {
+    public static void main(String[] args) {
+        // Upcasting to superclass and interface
+        LibraryItem book = new Book("1984", "George Orwell", 3);
+        LibraryItem textBook = new TextBook("Calculus", "James Stewart", 2, "Mathematics");
+        Borrowable borrowable = book;
+
+        // Runtime polymorphism: Method overriding
+        book.displayInfo();
+        // Outputs: Book - Title: 1984, Author: George Orwell, Copies: 3
+        textBook.displayInfo();
+        // Outputs: TextBook - Title: Calculus, Author: James Stewart, Subject: Mathematics, Copies: 2
+
+        // Compile-time polymorphism: Method overloading
+        book.displayInfo(true);
+        // Outputs: Title: 1984, Copies: 3
+        book.displayInfo(false);
+        // Outputs: Title: 1984
+
+        // Interface-based polymorphism
+        borrowable.borrowItem();
+        // Outputs: Book borrowed successfully.
+        borrowable.returnItem();
+        // Outputs: Item returned successfully.
+
+        // Downcasting
+        if (textBook instanceof TextBook) {
+            TextBook specificTextBook = (TextBook) textBook;
+            System.out.println("Subject: " + specificTextBook.getSubject());
+            // Outputs: Subject: Mathematics
+        }
+    }
+}
+```
+
+### Explanation
+- **Compile-Time Polymorphism**:
+  - The `displayInfo` method in `LibraryItem` is overloaded with a `boolean` parameter (`includeCopies`). The compiler selects the appropriate method based on the argument provided (`true` or `false`), demonstrating static polymorphism.
+- **Runtime Polymorphism**:
+  - The `displayInfo` method is overridden in `Book` and `TextBook`. When called on a `LibraryItem` reference, the JVM invokes the method corresponding to the actual object type (`Book` or `TextBook`), showcasing dynamic binding.
+- **Interface-Based Polymorphism**:
+  - The `Borrowable` interface allows `Book` to be treated as a `Borrowable` type, enabling calls to `borrowItem` and the default `returnItem` method polymorphically.
+- **Upcasting**:
+  - `Book` and `TextBook` objects are assigned to `LibraryItem` or `Borrowable` references, allowing generic handling without knowing the specific type.
+- **Downcasting**:
+  - The `textBook` reference (type `LibraryItem`) is explicitly cast to `TextBook` to access the `getSubject` method, with `instanceof` ensuring type safety.
+
+### Additional Notes
+- **Field Access**: Fields are not polymorphic; they are resolved based on the reference type, not the object type. In the example, accessing `title` via a `LibraryItem` reference uses the superclass field.
+- **Covariant Return Types**: Overridden methods can return a subtype of the superclass method’s return type (since Java 5), enhancing polymorphic flexibility.
+- **Limitations**:
+  - **Static Methods**: Static methods are bound to the reference type (static binding), not the object type, so they do not participate in runtime polymorphism.
+  - **Private/Final Methods**: Methods marked `private` or `final` cannot be overridden, limiting runtime polymorphism.
+- **Performance**: Runtime polymorphism incurs a minor overhead due to dynamic method dispatch, but modern JVM optimizations (e.g., inline caching) minimize this impact.
+- **Design Patterns**: Polymorphism is foundational to patterns like Strategy, Factory, and Decorator, enabling flexible and extensible code designs.
+
