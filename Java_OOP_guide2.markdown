@@ -549,3 +549,459 @@ class Library {
 - `Book` implements `Borrowable`, providing an implementation for `borrowItem`.
 - The default method `returnItem` is inherited without modification.
 - The static method is called using the interface name (`Borrowable.isBorrowable`).
+
+  ## 2.7. Enums
+An **enum** (enumeration) is a special Java type used to define a fixed set of constants, representing a collection of related values.
+
+### Explanation
+- **Declaration**: Defined using the `enum` keyword, typically containing a list of constants.
+- **Features**:
+  - Enums are implicitly `final` and extend `java.lang.Enum`.
+  - Each constant is an instance of the enum type.
+  - Can include fields, constructors, and methods for additional functionality.
+- **Use Cases**: Representing categories, statuses, or fixed options (e.g., book genres or loan statuses).
+
+### Key Points
+- Enums provide type safety, preventing invalid values.
+- Constants are uppercase by convention (e.g., `FICTION`, `NON_FICTION`).
+- Enums can be used in `switch` statements and comparisons.
+- The `values()` method returns all constants, and `valueOf(String)` retrieves a constant by name.
+
+### Example
+An enum `Genre` categorizes books in the `Library` system.
+
+```java
+public enum Genre {
+    FICTION("Fiction"), NON_FICTION("Non-Fiction"), SCIENCE("Science"), HISTORY("History");
+
+    private final String displayName;
+
+    Genre(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+}
+
+public class Book {
+    private String title;
+    private Genre genre;
+
+    public Book(String title, Genre genre) {
+        this.title = title;
+        this.genre = genre;
+    }
+
+    public void displayInfo() {
+        System.out.println("Title: " + title + ", Genre: " + genre.getDisplayName());
+    }
+}
+
+class Library {
+    public static void main(String[] args) {
+        Book book = new Book("1984", Genre.FICTION);
+        book.displayInfo();
+        // Outputs: Title: 1984, Genre: Fiction
+
+        // Using enum in switch
+        switch (book.getGenre()) {
+            case FICTION:
+                System.out.println("This is a fictional work.");
+                break;
+            default:
+                System.out.println("Other genre.");
+        }
+        // Outputs: This is a fictional work.
+    }
+}
+```
+
+### Explanation
+- `Genre` enum defines constants with associated `displayName` values.
+- The constructor and `getDisplayName` method add functionality.
+- `Book` uses `Genre` to categorize books, ensuring only valid genres are assigned.
+
+## 2.8. Records
+A **record** is a concise, immutable data class introduced in Java 14 (finalized in Java 16) to simplify the creation of classes that primarily hold data.
+
+### Explanation
+- **Declaration**: Defined with the `record` keyword, specifying components (fields) in the header.
+- **Features**:
+  - Automatically provides a constructor, getters, `equals()`, `hashCode()`, and `toString()`.
+  - Components are implicitly `final`, ensuring immutability.
+  - Cannot extend other classes but can implement interfaces.
+- **Use Cases**: Representing data transfer objects, simple entities, or immutable records (e.g., book metadata).
+
+### Key Points
+- Reduces boilerplate code compared to traditional classes.
+- Best for immutable data; setters are not provided.
+- Custom constructors or methods can be added for additional logic.
+- Components are accessed via auto-generated getters (e.g., `title()` instead of `getTitle()`).
+
+### Example
+A `BookRecord` record stores immutable book data.
+
+```java
+public record BookRecord(String title, String author, int copiesAvailable) {
+    // Custom validation in constructor
+    public BookRecord {
+        if (title == null || title.trim().isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be null or empty.");
+        }
+        if (copiesAvailable < 0) {
+            throw new IllegalArgumentException("Copies cannot be negative.");
+        }
+    }
+
+    // Custom method
+    public void displayInfo() {
+        System.out.println("Title: " + title + ", Author: " + author + ", Copies: " + copiesAvailable);
+    }
+}
+
+class Library {
+    public static void main(String[] args) {
+        BookRecord book = new BookRecord("1984", "George Orwell", 3);
+        book.displayInfo();
+        // Outputs: Title: 1984, Author: George Orwell, Copies: 3
+
+        System.out.println(book.toString());
+        // Outputs: BookRecord[title=1984, author=George Orwell, copiesAvailable=3]
+
+        // BookRecord invalid = new BookRecord("", "Author", -1); // Throws IllegalArgumentException
+    }
+}
+```
+
+### Explanation
+- `BookRecord` defines `title`, `author`, and `copiesAvailable` as components.
+- The compact constructor validates inputs.
+- Auto-generated methods (`toString`, getters) simplify usage, and a custom `displayInfo` method is added.
+
+## 2.9. Method Overloading / Overriding
+**Method Overloading** and **Method Overriding** are mechanisms to enhance flexibility and polymorphism in Java.
+
+### Explanation
+- **Method Overloading**:
+  - Multiple methods in the same class with the same name but different parameter lists (number, type, or order).
+  - Resolved at **compile time** based on the method signature.
+  - Return type alone cannot differentiate overloaded methods.
+- **Method Overriding**:
+  - A subclass provides a specific implementation of a method defined in its superclass, using the same signature (name, parameters, return type).
+  - Resolved at **runtime** based on the object’s actual type (dynamic binding).
+  - Requires the `@Override` annotation for clarity and error checking.
+
+### Key Points
+- Overloading supports flexibility by allowing different ways to call a method.
+- Overriding enables polymorphic behavior, customizing superclass methods.
+- Overridden methods must have the same or covariant return type and compatible exceptions.
+- `final` methods cannot be overridden; `private` methods are not inherited, so they cannot be overridden.
+
+### Example
+The `Book` class demonstrates overloading, and a `TextBook` subclass demonstrates overriding.
+
+```java
+public class Book {
+    private String title;
+    private int copiesAvailable;
+
+    public Book(String title, int copiesAvailable) {
+        this.title = title;
+        this.copiesAvailable = copiesAvailable;
+    }
+
+    // Overloaded methods
+    public void displayInfo() {
+        System.out.println("Title: " + title + ", Copies: " + copiesAvailable);
+    }
+
+    public void displayInfo(boolean showDetails) {
+        System.out.println("Title: " + title + (showDetails ? ", Copies: " + copiesAvailable : ""));
+    }
+
+    public void borrowBook() {
+        if (copiesAvailable > 0) {
+            copiesAvailable--;
+            System.out.println("Book borrowed successfully.");
+        } else {
+            System.out.println("No copies available.");
+        }
+    }
+}
+
+public class TextBook extends Book {
+    private String subject;
+
+    public TextBook(String title, int copiesAvailable, String subject) {
+        super(title, copiesAvailable);
+        this.subject = subject;
+    }
+
+    // Overriding
+    @Override
+    public void displayInfo() {
+        super.displayInfo();
+        System.out.println("Subject: " + subject);
+    }
+}
+
+class Library {
+    public static void main(String[] args) {
+        Book book = new Book("1984", 3);
+        book.displayInfo(); // Calls no-arg method
+        // Outputs: Title: 1984, Copies: 3
+        book.displayInfo(true); // Calls overloaded method
+        // Outputs: Title: 1984, Copies: 3
+
+        TextBook textBook = new TextBook("Calculus", 2, "Mathematics");
+        textBook.displayInfo(); // Calls overridden method
+        // Outputs: Title: Calculus, Copies: 2
+        //         Subject: Mathematics
+    }
+}
+```
+
+### Explanation
+- `Book` has overloaded `displayInfo` methods (no-arg and with a `boolean` parameter).
+- `TextBook` overrides `displayInfo` to include `subject`, calling the superclass method with `super`.
+- Overloading is resolved at compile time; overriding is resolved at runtime based on the object’s type.
+
+## 2.10. Initializer Block
+An **initializer block** is a block of code in a class that runs during object creation, used to initialize instance variables or perform setup tasks.
+
+### Explanation
+- **Types**:
+  - **Instance Initializer Block**: Runs for each object creation, after default initialization but before the constructor.
+  - **Static Initializer Block**: Runs once when the class is loaded, used for static variable initialization.
+- **Syntax**: Enclosed in `{}` for instance blocks or `static {}` for static blocks.
+- **Use Cases**: Complex initialization logic that cannot be handled in variable declarations or constructors.
+
+### Key Points
+- Instance initializer blocks are useful when initialization logic is shared across multiple constructors.
+- Static initializer blocks initialize static fields or perform one-time setup.
+- Multiple initializer blocks are executed in the order they appear in the code.
+- Constructors execute after instance initializer blocks.
+
+### Example
+A `Book` class uses both instance and static initializer blocks.
+
+```java
+public class Book {
+    private String title;
+    private int copiesAvailable;
+    private static int totalBooks;
+
+    // Static initializer block
+    static {
+        totalBooks = 0;
+        System.out.println("Static initializer: Setting totalBooks to 0");
+    }
+
+    // Instance initializer block
+    {
+        copiesAvailable = 1; // Default value
+        System.out.println("Instance initializer: Setting default copies");
+    }
+
+    public Book(String title) {
+        this.title = title;
+        totalBooks++;
+    }
+
+    public void displayInfo() {
+        System.out.println("Title: " + title + ", Copies: " + copiesAvailable + ", Total Books: " + totalBooks);
+    }
+}
+
+class Library {
+    public static void main(String[] args) {
+        // Static initializer runs once when class is loaded
+        // Outputs: Static initializer: Setting totalBooks to 0
+
+        Book book1 = new Book("1984");
+        // Outputs: Instance initializer: Setting default copies
+        book1.displayInfo();
+        // Outputs: Title: 1984, Copies: 1, Total Books: 1
+
+        Book book2 = new Book("Pride and Prejudice");
+        // Outputs: Instance initializer: Setting default copies
+        book2.displayInfo();
+        // Outputs: Title: Pride and Prejudice, Copies: 1, Total Books: 2
+    }
+}
+```
+
+### Explanation
+- The static initializer sets `totalBooks` when the class is loaded.
+- The instance initializer sets a default `copiesAvailable` for each `Book` object.
+- The constructor increments `totalBooks` and sets `title`, running after the instance initializer.
+
+## 5. Static vs. Dynamic Binding
+**Binding** refers to the process of associating a method call with the method’s implementation.
+
+### Explanation
+- **Static Binding** (Early Binding):
+  - Resolved at **compile time**.
+  - Applies to `static`, `final`, `private`, or overloaded methods.
+  - The compiler determines the method based on the reference type.
+- **Dynamic Binding** (Late Binding):
+  - Resolved at **runtime**.
+  - Applies to overridden instance methods.
+  - The JVM determines the method based on the object’s actual type.
+
+### Key Points
+- Static binding is faster but less flexible; dynamic binding supports polymorphism.
+- Use `final` or `private` to enforce static binding when polymorphism is not needed.
+- The `@Override` annotation ensures dynamic binding for overridden methods.
+- Variables and static methods are always statically bound; instance methods are dynamically bound unless `final` or `private`.
+
+### Example
+A `Book` and `TextBook` demonstrate binding types.
+
+```java
+public class Book {
+    private String title;
+
+    public Book(String title) {
+        this.title = title;
+    }
+
+    public void displayInfo() {
+        System.out.println("Book: " + title);
+    }
+
+    public static void getType() {
+        System.out.println("Generic Book");
+    }
+}
+
+public class TextBook extends Book {
+    private String subject;
+
+    public TextBook(String title, String subject) {
+        super(title);
+        this.subject = subject;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("TextBook: " + super.getTitle() + ", Subject: " + subject);
+    }
+
+    public static void getType() {
+        System.out.println("TextBook");
+    }
+}
+
+class Library {
+    public static void main(String[] args) {
+        Book book = new Book("1984");
+        Book textBook = new TextBook("Calculus", "Mathematics");
+
+        book.displayInfo(); // Static binding (Book type)
+        // Outputs: Book: 1984
+
+        textBook.displayInfo(); // Dynamic binding (TextBook object)
+        // Outputs: TextBook: Calculus, Subject: Mathematics
+
+        Book.getType(); // Static binding (static method)
+        // Outputs: Generic Book
+
+        TextBook.getType(); // Static binding (static method)
+        // Outputs: TextBook
+    }
+}
+```
+
+### Explanation
+- `displayInfo` is dynamically bound; the actual object type (`TextBook`) determines the method called.
+- `getType` is statically bound; the reference type (`Book` or `TextBook`) determines the method, as it is `static`.
+- The `Book` reference to a `TextBook` object shows polymorphism via dynamic binding.
+
+## 2.11. Pass by Value / Pass by Reference
+Java uses **pass by value** for all method arguments, but the behavior differs for primitive and reference types, leading to confusion with pass by reference.
+
+### Explanation
+- **Pass by Value**:
+  - Java copies the value of the argument (either a primitive or a reference) and passes it to the method.
+  - For **primitives**, the value is the actual data (e.g., `int` value).
+  - For **references**, the value is a copy of the memory address (reference), not the object itself.
+- **Pass by Reference** (Not in Java):
+  - In pass by reference, the method directly manipulates the original variable’s memory.
+  - Java does not support this; changes to the reference (e.g., reassigning it) do not affect the caller’s reference.
+
+### Key Points
+- For primitives, changes in the method do not affect the caller’s variable.
+- For objects, changes to the object’s state (via the reference) affect the caller’s object, but reassigning the reference does not.
+- No way to modify the caller’s reference itself (e.g., swap two objects).
+- Understanding this prevents common bugs in method parameter handling.
+
+### Example
+A `Book` class demonstrates pass by value behavior.
+
+```java
+public class Book {
+    private String title;
+    private int copiesAvailable;
+
+    public Book(String title, int copiesAvailable) {
+        this.title = title;
+        this.copiesAvailable = copiesAvailable;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setCopiesAvailable(int copiesAvailable) {
+        this.copiesAvailable = copiesAvailable;
+    }
+
+    public void displayInfo() {
+        System.out.println("Title: " + title + ", Copies: " + copiesAvailable);
+    }
+}
+
+class Library {
+    public static void updateBook(Book book, int newCopies) {
+        book.setCopiesAvailable(newCopies); // Modifies object state
+        book = new Book("New Book", 5); // Reassigns local reference, no effect on caller
+        System.out.println("Inside method: ");
+        book.displayInfo();
+    }
+
+    public static void updatePrimitive(int value) {
+        value = 100; // Modifies local copy, no effect on caller
+    }
+
+    public static void main(String[] args) {
+        Book book = new Book("1984", 3);
+        System.out.println("Before method: ");
+        book.displayInfo();
+        // Outputs: Title: 1984, Copies: 3
+
+        updateBook(book, 2);
+        // Outputs: Inside method:
+        //         Title: New Book, Copies: 5
+        System.out.println("After method: ");
+        book.displayInfo();
+        // Outputs: Title: 1984, Copies: 2
+
+        int copies = 10;
+        System.out.println("Before primitive: " + copies);
+        updatePrimitive(copies);
+        System.out.println("After primitive: " + copies);
+        // Outputs: Before primitive: 10
+        //         After primitive: 10
+    }
+}
+```
+
+### Explanation
+- In `updateBook`, the `book` parameter is a copy of the reference to the `Book` object.
+  - `setCopiesAvailable` modifies the object’s state, affecting the caller’s object.
+  - Reassigning `book` to a new object changes the local reference, not the caller’s.
+- In `updatePrimitive`, the `value` parameter is a copy of the `int`; changes do not affect the caller’s `copies`.
+- This demonstrates Java’s pass by value for both primitives and references.
