@@ -594,6 +594,11 @@ public class Book {
         this.genre = genre;
     }
 
+    // Getter for the genre field
+    public Genre getGenre() {
+        return this.genre;
+    }
+
     public void displayInfo() {
         System.out.println("Title: " + title + ", Genre: " + genre.getDisplayName());
     }
@@ -679,6 +684,29 @@ class Library {
 - `BookRecord` defines `title`, `author`, and `copiesAvailable` as components.
 - The compact constructor validates inputs.
 - Auto-generated methods (`toString`, getters) simplify usage, and a custom `displayInfo` method is added.
+
+### 🔍 Why Do We Need Records? (Simplified)
+In Java, when you just need a class to hold data—like a container—you often end up writing a lot of repetitive code:
+- `Constructor`
+- `Getters`
+- `equals()` and `hashCode()` for comparison
+- `toString()` for logging/debugging
+
+Records eliminate this boilerplate automatically.
+
+📦 Think of a record as:
+- “A simple class that just holds data, is immutable, and writes all the boring code for you.”
+
+✅ You should use records when:
+- You don't need to modify the data after creation.
+- You just need to store and pass data around (e.g. from a database, API, or form).
+- You want your code to be cleaner, shorter, and less error-prone.
+
+🧠 Example in real life:
+Instead of writing a 40-line class just to store a book’s title, author, and number of copies, a record lets you do it in 1 line—with all necessary methods already built in.
+
+🎯 Bottom Line:
+- Use records when you're building simple, immutable data holders and want to write less code and make fewer mistakes.
 
 ## 2.9. Method Overloading / Overriding
 **Method Overloading** and **Method Overriding** are mechanisms to enhance flexibility and polymorphism in Java.
