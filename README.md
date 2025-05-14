@@ -1,6 +1,6 @@
 # Java Foundation – Table of Contents
 
-## 1. Learn the Basics [ Let's strat →](./Java_basics_guide.markdown)
+## 1. Learn the Basics [ Let's strat →](./Java-basics/Java_basics_guide.markdown)
 - Basic Syntax  
 - Lifecycle of a Program  
 - Data Types  
@@ -14,7 +14,7 @@
 - Basics of OOP  
 
 ## 2. Object Oriented Programming (OOP) 
-### 2.1 Basics of OOP [ Go to OOP Guide →](./Java_OOP_guide.markdown)
+### 2.1 Basics of OOP [ Go to OOP Guide →](./Java-OOP/Java_OOP_guide.markdown)
 - Classes and Objects  
 - Attributes and Methods  
 - Access Specifiers  
@@ -23,7 +23,7 @@
 - Nested Classes  
 - Packages  
 
-### 2.2 More about OOP [ Go to More OOP Guide →](./Java_OOP_guide2.markdown)
+### 2.2 More about OOP [ Go to More OOP Guide →](./Java-OOP//Java_OOP_guide2.markdown)
 - Object Lifecycle  
 - Inheritance  
 - Abstraction  

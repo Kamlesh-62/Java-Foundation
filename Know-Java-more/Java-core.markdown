@@ -1,4 +1,6 @@
-## 🧾 What Is a Method Signature in Java?
+## Signature
+
+### 🧾 What Is a Method Signature in Java?
 - The method signature is the unique identifier of a method within a class.
 
 ### ❌ Not Part of the Method Signature
