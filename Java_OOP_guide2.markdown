@@ -838,7 +838,7 @@ class Library {
 - The instance initializer sets a default `copiesAvailable` for each `Book` object.
 - The constructor increments `totalBooks` and sets `title`, running after the instance initializer.
 
-## 5. Static vs. Dynamic Binding
+## 2.11. Static vs. Dynamic Binding
 **Binding** refers to the process of associating a method call with the method’s implementation.
 
 ### Explanation
@@ -920,7 +920,7 @@ class Library {
 - `getType` is statically bound; the reference type (`Book` or `TextBook`) determines the method, as it is `static`.
 - The `Book` reference to a `TextBook` object shows polymorphism via dynamic binding.
 
-## 2.11. Pass by Value / Pass by Reference
+## 2.12. Pass by Value / Pass by Reference
 Java uses **pass by value** for all method arguments, but the behavior differs for primitive and reference types, leading to confusion with pass by reference.
 
 ### Explanation
