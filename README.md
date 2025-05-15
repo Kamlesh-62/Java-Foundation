@@ -37,8 +37,8 @@
 - Static vs Dynamic Binding  
 - Pass by Value / Pass by Reference  
 
-## 3. Exception Handling  
-## 4. Lambda Expressions  
+## 3. Exception Handling  [ Go to Exception Handling ](./Exception-Handling-Java/Exception-Handling-Java.markdown)
+## 4. Lambda Expressions  [ Go to Lambda Expression ](./Lamda-Expression-java/Lamda-Expression-java.markdown)
 ## 5. Annotations  
 ## 6. Modules  
 ## 7. Optionals  
